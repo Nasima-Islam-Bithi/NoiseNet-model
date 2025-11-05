@@ -14,19 +14,6 @@ Predict the standard deviation (σ) of additive white Gaussian noise (AWGN) in c
 
 ---
 
-## 🗂️ Repository Structure (suggested)
-```
-.
-├── train.py                 # (optional) main script if you split files
-├── model.py                 # (optional) model class if you split files
-├── README.md                # this file
-└── data/
-    └── images/             # your RGB images (jpg/png/jpeg)
-```
-> In the provided script, you set `image_dir` directly to your dataset folder.
-
----
-
 ## 🧠 Model Architecture (high-level)
 - **VGG16 features (frozen)** → **Conv(128→256) → Conv(256→128)** → **Conv(128→64)**  
 - **Skip path:** `1×1 Conv(128→64)` from VGG features  
@@ -61,7 +48,7 @@ pip install scikit-learn pillow tqdm matplotlib tensorboard
 ---
 
 ## 📁 Data
-Point `image_dir` to a folder containing RGB images:
+We used Flickr30k, COCO and CelebA datasets seperately for training. We point `image_dir` to a folder containing RGB images for COCO dataset:
 ```python
 image_dir = r'D:/.../coco_train/train2017'
 ```
@@ -76,15 +63,14 @@ Valid extensions: `.png`, `.jpg`, `.jpeg`.
 
 ## ▶️ Quick Start
 
-1) **Set your dataset path** in the script:
+1) **Set the dataset path** in the script:
 ```python
 image_dir = r'path/to/your/images'
 ```
 
 2) **Run training** (from your Python environment):
-```bash
-python your_script.py
-```
+
+
 This will:
 - Split images into **70% train / 30% val**
 - Train for **25 epochs** with Adam (lr=1e-4, wd=1e-4), StepLR (step=5, γ=0.1)
@@ -99,7 +85,7 @@ tensorboard --logdir runs
 
 ## 📊 Reported Example Metrics (from logs)
 *(These will vary with dataset & hardware.)*
-- After a few epochs, validation typically achieves:
+- After a few epochs, validation typically achieves for COCO datasets:
   - **MAE ≈ 0.003–0.005**
   - **RMSE ≈ 0.004–0.006**
   - **R² ≈ 0.99+**
@@ -170,18 +156,6 @@ print(f"Estimated σ: {pred_sigma:.4f}")
 
 ---
 
-## 🧪 Reproducibility Tips
-- Set seeds:
-```python
-import torch, numpy as np, random
-torch.manual_seed(42); np.random.seed(42); random.seed(42)
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
-```
-- Fix train/val split (`random_state=42` is already used).
-
----
-
 ## 🧰 Practical Notes & Troubleshooting
 - **Memory usage:** The large fully connected layers can be heavy (model ~3.3 GB est.). If you hit OOM:
   - Add `nn.AdaptiveAvgPool2d((7,7))` before flattening.
@@ -217,25 +191,10 @@ model.eval()
 
 ---
 
-## 📜 License
-This project is provided as-is for research and educational use. Add your preferred license (e.g., MIT) here.
-
----
 
 ## 🙌 Acknowledgments
 - VGG16 backbone from `torchvision.models`.
-- Div2K/Flickr2K/COCO images used as base clean images (per your local setup). Please respect their licenses.
+- Div2K/Flickr2K/COCO/CelebA images used as base clean images (per your local setup). Please respect their licenses.
 - Training loops inspired by standard PyTorch patterns.
 
 ---
-
-## 🧾 Citation (example)
-If you use this code in academic work, please cite your paper and this repository:
-```
-@misc{noisenet2025,
-  title={NoiseNet: CNN-Based Regression for Gaussian Noise-Level Estimation in Color Images},
-  author={Your Name},
-  year={2025},
-  howpublished={\url{https://github.com/yourrepo/noisenet}}
-}
-```

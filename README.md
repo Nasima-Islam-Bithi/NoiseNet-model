@@ -68,7 +68,7 @@ Valid extensions: `.png`, `.jpg`, `.jpeg`.
 image_dir = r'path/to/your/images'
 ```
 
-2) **Run training** (from your Python environment):
+2) **Run training** (from your Python environment)
 
 
 This will:
@@ -194,7 +194,7 @@ model.eval()
 
 ## 🙌 Acknowledgments
 - VGG16 backbone from `torchvision.models`.
-- Div2K/Flickr2K/COCO/CelebA images used as base clean images (per your local setup). Please respect their licenses.
+- Div2K/Flickr2K/COCO/CelebA images used as base clean images.
 - Training loops inspired by standard PyTorch patterns.
 
 ---
